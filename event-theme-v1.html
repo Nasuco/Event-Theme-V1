@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Events | Annual Design Conference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #A5A2FF;
+            --secondary: #FF6584;
+            --dark: #2D3748;
+            --light: #F7FAFC;
+            --gray: #E2E8F0;
+            --gray-dark: #CBD5E0;
+            
+            --text: var(--dark);
+            --text-light:rgb(15, 21, 31);
+            --bg: #FFFFFF;
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Lora', serif;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            
+            --radius: 8px;
+            --radius-lg: 12px;
+            
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+        }
+        
+        h2 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+        
+        p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section--light {
+            background-color: var(--light);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-center h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn--primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn--primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn--outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn--outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.25rem 0;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .header.scrolled {
+            padding: 0.75rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav__logo::before {
+            content: "✦";
+            font-size: 1.2rem;
+        }
+
+        .nav__menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav__list {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav__link {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        .nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav__link:hover {
+            color: var(--primary);
+        }
+
+        .nav__link:hover::after {
+            width: 100%;
+        }
+
+        .nav__cta {
+            margin-left: 1rem;
+        }
+
+        .nav__toggle {
+            display: none;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            position: relative;
+            z-index: 1001;
+            background: transparent;
+            border: none;
+        }
+
+        .nav__toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: var(--dark);
+            position: absolute;
+            left: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .nav__toggle span:nth-child(1) {
+            top: 8px;
+        }
+
+        .nav__toggle span:nth-child(2) {
+            top: 13px;
+        }
+
+        .nav__toggle span:nth-child(3) {
+            top: 18px;
+        }
+
+        .nav__toggle.active span:nth-child(1) {
+            transform: translateY(5px) rotate(45deg);
+        }
+
+        .nav__toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .nav__toggle.active span:nth-child(3) {
+            transform: translateY(-5px) rotate(-45deg);
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1), rgba(255, 101, 132, 0.1));
+            z-index: -1;
+            animation: gradientShift 15s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .hero__content {
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+        
+        .hero__title {
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero__subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .hero__meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hero__meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .hero__cta {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .events {
+            padding: 4rem 0;
+        }
+
+        .events__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .event-card {
+            background-color: var(--bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .event-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .event-card:nth-child(1) { animation-delay: 0.2s; }
+        .event-card:nth-child(2) { animation-delay: 0.4s; }
+        .event-card:nth-child(3) { animation-delay: 0.6s; }
+        .event-card:nth-child(4) { animation-delay: 0.8s; }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .event-card__image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover .event-card__image {
+            transform: scale(1.03);
+        }
+
+        .event-card__content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .event-card__date {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-card__title {
+            margin-bottom: 0.75rem;
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
+        }
+
+        .event-card__location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-card__description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .event-card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .event-card__price {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .btn--small {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            width: 100px;
+            padding: 0.25rem 0;
+            background-color: var(--secondary);
+            color: white;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .speakers {
+            background-color: var(--light);
+        }
+        
+        .speakers__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .speaker-card {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        
+        .speaker-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .speaker-card__avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            border: 5px solid white;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        
+        .speaker-card:hover .speaker-card__avatar {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .speaker-card__name {
+            margin-bottom: 0.5rem;
+        }
+        
+        .speaker-card__role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .speaker-card__bio {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .speaker-card__social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .speaker-card__social a {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .speaker-card__social a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .schedule {
+            position: relative;
+            padding: 5rem 0;
+        }
+        
+        .schedule__timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto 0;
+            padding-left: 70px;
+        }
+        
+        .schedule__timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 35px;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, 
+                        var(--primary-light), 
+                        var(--secondary),
+                        var(--primary-light));
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item__dot {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--bg);
+            border: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            box-shadow: var(--shadow-md);
+            z-index: 2;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .timeline-item__dot.empty {
+            background-color: var(--primary-light);
+            border-color: var(--primary-light);
+            color: white;
+            width: 20px;
+            height: 20px;
+            left: -35px;
+            top: 15px;
+        }
+        
+        .timeline-item__content {
+            background-color: var(--bg);
+            padding: 1.75rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-item__content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                        rgba(108, 99, 255, 0.03) 0%, 
+                        rgba(255, 255, 255, 0) 100%);
+            z-index: 1;
+        }
+        
+        .timeline-item:hover .timeline-item__content {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .timeline-item:hover .timeline-item__dot {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .timeline-item__time {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-item__time::before {
+            content: '⏱';
+            font-size: 1rem;
+        }
+        
+        .timeline-item__title {
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            color: var(--dark);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timeline-item__speaker {
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-item__speaker::before {
+            content: '👤';
+            font-size: 0.9rem;
+        }
+        
+        .timeline-item p {
+            position: relative;
+            z-index: 2;
+            line-height: 1.7;
+        }
+        
+        .testimonials {
+            background-color: var(--light);
+        }
+        
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .testimonial-carousel__track {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 300%;
+        }
+        
+        .testimonial {
+            flex: 0 0 33.333%;
+            padding: 0 1rem;
+            text-align: center;
+        }
+        
+        .testimonial__content {
+            background-color: var(--bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial__content::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 3rem;
+            font-family: var(--font-serif);
+            color: var(--gray-dark);
+            line-height: 1;
+        }
+        
+        .testimonial__text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial__author {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .testimonial__avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .testimonial__name {
+            font-weight: 600;
+        }
+        
+        .testimonial__role {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        .testimonial-carousel__nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-carousel__indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .testimonial-carousel__indicator.active {
+            background-color: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        @keyframes scrollTestimonials {
+            0% { transform: translateX(0); }
+            33% { transform: translateX(-33.333%); }
+            66% { transform: translateX(-66.666%); }
+            100% { transform: translateX(0); }
+        }
+        
+        .registration__form {
+            max-width: 600px;
+            margin: 3rem auto 0;
+            background-color: var(--bg);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--radius);
+            font-family: var(--font-sans);
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+        }
+        
+        .form-label {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: var(--text-light);
+            transition: var(--transition);
+            pointer-events: none;
+            background-color: var(--bg);
+            padding: 0 0.25rem;
+        }
+        
+        .form-control:focus + .form-label,
+        .form-control:not(:placeholder-shown) + .form-label {
+            top: -0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .form-submit {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer__title {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+        }
+        
+        .footer__text {
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .footer__links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer__link {
+            color: var(--gray-dark);
+            transition: var(--transition);
+        }
+        
+        .footer__link:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer__social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer__social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .footer__social a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer__bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--gray-dark);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 992px) {
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .hero__meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .schedule__timeline {
+                padding-left: 60px;
+            }
+
+            .timeline-item__dot {
+                width: 45px;
+                height: 45px;
+                left: -45px;
+            }
+
+            .timeline-item__dot.empty {
+                left: -32px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav__menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background-color: var(--bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 2rem;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+                z-index: 1000;
+            }
+
+            .nav__menu.active {
+                right: 0;
+            }
+
+            .nav__list {
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+
+            .nav__link {
+                font-size: 1.1rem;
+                padding: 0.5rem 0;
+                display: block;
+                width: 100%;
+            }
+
+            .nav__link::after {
+                bottom: 0;
+            }
+
+            .nav__cta {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .nav__cta .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav__toggle {
+                display: block;
+            }
+
+            .nav__overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                z-index: 999;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+
+            .nav__overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            
+            .hero__cta {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .events {
+                padding: 3rem 0;
+            }
+            
+            .events__grid {
+                gap: 1.5rem;
+            }
+            
+            .event-card__content {
+                padding: 1.25rem;
+            }
+
+            .schedule {
+                padding: 4rem 0;
+            }
+
+            .schedule__timeline {
+                padding-left: 50px;
+            }
+
+            .timeline-item__content {
+                padding: 1.5rem;
+            }
+
+            .timeline-item__title {
+                font-size: 1.3rem;
+            }
+        }
+
+        .nav__menu.active .nav__link {
+            animation: fadeInRight 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .nav__menu.active .nav__link:nth-child(1) { animation-delay: 0.1s; }
+        .nav__menu.active .nav__link:nth-child(2) { animation-delay: 0.2s; }
+        .nav__menu.active .nav__link:nth-child(3) { animation-delay: 0.3s; }
+        .nav__menu.active .nav__link:nth-child(4) { animation-delay: 0.4s; }
+        .nav__menu.active .nav__cta { animation: fadeInRight 0.4s ease forwards 0.5s; opacity: 0; }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section {
+                padding: 3rem 0;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .schedule {
+                padding: 3rem 0;
+            }
+
+            .schedule__timeline {
+                padding-left: 40px;
+            }
+
+            .schedule__timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item__dot {
+                width: 40px;
+                height: 40px;
+                left: -40px;
+                font-size: 0.7rem;
+            }
+
+            .timeline-item__dot.empty {
+                width: 16px;
+                height: 16px;
+                left: -26px;
+            }
+
+            .timeline-item__content {
+                padding: 1.25rem;
+            }
+
+            .timeline-item__title {
+                font-size: 1.2rem;
+            }
+
+            .timeline-item__time {
+                font-size: 0.95rem;
+            }
+
+            .events {
+                padding: 2.5rem 0;
+            }
+            
+            .event-card__footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .event-card__price {
+                font-size: 1.1rem;
+            }
+            
+            .btn--small {
+                width: 100%;
+            }
+            
+            .ribbon {
+                top: 10px;
+                right: -35px;
+                width: 90px;
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="nav__logo">Lumina</a>
+                
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li><a href="#home" class="nav__link">Home</a></li>
+                        <li><a href="#events" class="nav__link">Events</a></li>
+                        <li><a href="#speakers" class="nav__link">Speakers</a></li>
+                        <li><a href="#schedule" class="nav__link">Schedule</a></li>
+                        <li><a href="#register" class="nav__link">Register</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav__toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero__content">
+                <span class="hero__subtitle">Annual Design Conference</span>
+                <h1 class="hero__title">Design Beyond Vision</h1>
+                <p>Join us for a transformative experience where creativity meets innovation. Three days of inspiring talks, hands-on workshops, and networking with industry leaders.</p>
+                
+                <div class="hero__meta">
+                    <div class="hero__meta-item">
+                        <i class="icon-calendar"></i>
+                        <span>June 15-17, 2023</span>
+                    </div>
+                    <div class="hero__meta-item">
+                        <i class="icon-location"></i>
+                        <span>San Francisco, CA</span>
+                    </div>
+                </div>
+                
+                <div class="hero__cta">
+                    <a href="#register" class="btn btn--primary">Get Tickets</a>
+                    <a href="#events" class="btn btn--outline">View Events</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="events">
+        <div class="container">
+            <div class="text-center">
+                <h2>Featured Events</h2>
+                <p>Discover our curated selection of design-focused events and workshops</p>
+            </div>
+            
+            <div class="events__grid">
+                <article class="event-card">
+                    <div class="ribbon">Early Bird</div>
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Design Conference" class="event-card__image">
+                    <div class="event-card__content">
+                        <div class="event-card__date">June 15, 2023 • 9:00 AM</div>
+                        <h3 class="event-card__title">Main Conference</h3>
+                        <div class="event-card__location">
+                            <i class="icon-location"></i>
+                            <span>Moscone Center, SF</span>
+                        </div>
+                        <p>Full-day access to all keynote speeches, breakout sessions, and networking events.</p>
+                        <div class="event-card__footer">
+                            <span class="event-card__price">$299</span>
+                            <a href="#" class="btn btn--primary btn--small">Register</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="event-card">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="UX Workshop" class="event-card__image">
+                    <div class="event-card__content">
+                        <div class="event-card__date">June 16, 2023 • 2:00 PM</div>
+                        <h3 class="event-card__title">UX Masterclass</h3>
+                        <div class="event-card__location">
+                            <i class="icon-location"></i>
+                            <span>Design Hub, SF</span>
+                        </div>
+                        <p>Hands-on workshop with industry leaders to improve your UX research and design skills.</p>
+                        <div class="event-card__footer">
+                            <span class="event-card__price">$149</span>
+                            <a href="#" class="btn btn--primary btn--small">Register</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="event-card">
+                    <div class="ribbon">Sold Out</div>
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Networking Event" class="event-card__image">
+                    <div class="event-card__content">
+                        <div class="event-card__date">June 17, 2023 • 7:00 PM</div>
+                        <h3 class="event-card__title">Designer's Night</h3>
+                        <div class="event-card__location">
+                            <i class="icon-location"></i>
+                            <span>Sky Lounge, SF</span>
+                        </div>
+                        <p>Exclusive networking event with drinks, music, and opportunities to connect with peers.</p>
+                        <div class="event-card__footer">
+                            <span class="event-card__price">$99</span>
+                            <a href="#" class="btn btn--primary btn--small disabled">Sold Out</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section--light" id="speakers">
+        <div class="container">
+            <div class="text-center">
+                <h2>Featured Speakers</h2>
+                <p>Learn from the brightest minds in design and technology</p>
+            </div>
+            
+            <div class="speakers__grid">
+                <div class="speaker-card">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="speaker-card__avatar">
+                    <h3 class="speaker-card__name">Sarah Johnson</h3>
+                    <div class="speaker-card__role">Lead UX Designer at Figma</div>
+                    <p class="speaker-card__bio">Specializing in design systems and collaborative workflows, Sarah has helped shape the future of interface design tools.</p>
+                    <div class="speaker-card__social">
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>
+                        <a href="#"><i class="icon-dribbble"></i></a>
+                    </div>
+                </div>
+                
+                <div class="speaker-card">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="speaker-card__avatar">
+                    <h3 class="speaker-card__name">Michael Chen</h3>
+                    <div class="speaker-card__role">Creative Director at Airbnb</div>
+                    <p class="speaker-card__bio">With a background in psychology and design, Michael creates experiences that resonate emotionally with users.</p>
+                    <div class="speaker-card__social">
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>
+                        <a href="#"><i class="icon-medium"></i></a>
+                    </div>
+                </div>
+                
+                <div class="speaker-card">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Patel" class="speaker-card__avatar">
+                    <h3 class="speaker-card__name">Priya Patel</h3>
+                    <div class="speaker-card__role">Head of Design at Google</div>
+                    <p class="speaker-card__bio">Priya leads design strategy for Google's productivity suite, focusing on inclusive and accessible design.</p>
+                    <div class="speaker-card__social">
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>
+                        <a href="#"><i class="icon-behance"></i></a>
+                    </div>
+                </div>
+                
+                <div class="speaker-card">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="David Kim" class="speaker-card__avatar">
+                    <h3 class="speaker-card__name">David Kim</h3>
+                    <div class="speaker-card__role">Founder of Design+Code</div>
+                    <p class="speaker-card__bio">David teaches designers how to code and developers how to design, bridging the gap between disciplines.</p>
+                    <div class="speaker-card__social">
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>
+                        <a href="#"><i class="icon-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section schedule" id="schedule">
+        <div class="container">
+            <div class="text-center">
+                <h2>Event Schedule</h2>
+                <p>Plan your conference experience with our detailed schedule</p>
+            </div>
+            
+            <div class="schedule__timeline">
+                <div class="timeline-item">
+                    <div class="timeline-item__dot">Day 1</div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__time">9:00 AM - 10:30 AM</div>
+                        <h3 class="timeline-item__title">Opening Keynote: The Future of Design</h3>
+                        <div class="timeline-item__speaker">Sarah Johnson</div>
+                        <p>Join us for the opening keynote where we'll explore emerging trends and the future landscape of design.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item__dot empty"></div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__time">11:00 AM - 12:30 PM</div>
+                        <h3 class="timeline-item__title">Design Systems Workshop</h3>
+                        <div class="timeline-item__speaker">Michael Chen</div>
+                        <p>Hands-on session on creating and maintaining scalable design systems for large organizations.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item__dot">Day 2</div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__time">10:00 AM - 11:30 AM</div>
+                        <h3 class="timeline-item__title">Inclusive Design Principles</h3>
+                        <div class="timeline-item__speaker">Priya Patel</div>
+                        <p>Learn how to create products that are accessible and usable by as many people as possible.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item__dot empty"></div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__time">2:00 PM - 5:00 PM</div>
+                        <h3 class="timeline-item__title">UX Masterclass</h3>
+                        <div class="timeline-item__speaker">All Speakers</div>
+                        <p>An intensive afternoon workshop covering user research, prototyping, and testing methodologies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section--light" id="testimonials">
+        <div class="container">
+            <div class="text-center">
+                <h2>What People Say</h2>
+                <p>Hear from our past attendees about their experiences</p>
+            </div>
+            
+            <div class="testimonial-carousel">
+                <div class="testimonial-carousel__track">
+                    <div class="testimonial">
+                        <div class="testimonial__content">
+                            <p class="testimonial__text">Lumina Conference completely transformed my approach to design. The workshops were hands-on and the speakers were incredibly knowledgeable. Can't wait for next year!</p>
+                        </div>
+                        <div class="testimonial__author">
+                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Alex Morgan" class="testimonial__avatar">
+                            <div class="testimonial__name">Alex Morgan</div>
+                            <div class="testimonial__role">Product Designer, Spotify</div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial__content">
+                            <p class="testimonial__text">The networking opportunities alone were worth the price of admission. I met so many talented designers and even landed a new job through connections I made here.</p>
+                        </div>
+                        <div class="testimonial__author">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Jamal Williams" class="testimonial__avatar">
+                            <div class="testimonial__name">Jamal Williams</div>
+                            <div class="testimonial__role">UX Researcher, Microsoft</div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial__content">
+                            <p class="testimonial__text">As a design leader, I found the strategic sessions incredibly valuable. The content was fresh, relevant, and immediately applicable to my team's challenges.</p>
+                        </div>
+                        <div class="testimonial__author">
+                            <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Maria Garcia" class="testimonial__avatar">
+                            <div class="testimonial__name">Maria Garcia</div>
+                            <div class="testimonial__role">Design Director, IBM</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-carousel__nav">
+                    <div class="testimonial-carousel__indicator active" data-slide="0"></div>
+                    <div class="testimonial-carousel__indicator" data-slide="1"></div>
+                    <div class="testimonial-carousel__indicator" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="register">
+        <div class="container">
+            <div class="text-center">
+                <h2>Register Now</h2>
+                <p>Secure your spot at this year's premier design event</p>
+            </div>
+            
+            <form class="registration__form">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" placeholder=" ">
+                    <label for="name" class="form-label">Full Name</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" placeholder=" ">
+                    <label for="email" class="form-label">Email Address</label>
+                </div>
+                
+                <div class="form-group">
+                    <select class="form-control" id="ticket-type">
+                        <option value="" disabled selected> </option>
+                        <option value="full-conference">Full Conference Pass ($299)</option>
+                        <option value="single-day">Single Day Pass ($149)</option>
+                        <option value="workshop">Workshop Only ($99)</option>
+                    </select>
+                    <label for="ticket-type" class="form-label">Ticket Type</label>
+                </div>
+                
+                <div class="form-group">
+                    <textarea class="form-control" id="special-requests" rows="3" placeholder=" "></textarea>
+                    <label for="special-requests" class="form-label">Special Requests</label>
+                </div>
+                
+                <button type="submit" class="btn btn--primary form-submit">Complete Registration</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__col">
+                    <h3 class="footer__title">Lumina Events</h3>
+                    <p class="footer__text">Creating unforgettable experiences that inspire and connect creative professionals worldwide.</p>
+                    <div class="footer__social">
+                        <a href="#"><i class="icon-twitter"></i></a>
+                        <a href="#"><i class="icon-instagram"></i></a>
+                        <a href="#"><i class="icon-linkedin"></i></a>
+                        <a href="#"><i class="icon-facebook"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer__col">
+                    <h3 class="footer__title">Quick Links</h3>
+                    <ul class="footer__links">
+                        <li><a href="#home" class="footer__link">Home</a></li>
+                        <li><a href="#events" class="footer__link">Events</a></li>
+                        <li><a href="#speakers" class="footer__link">Speakers</a></li>
+                        <li><a href="#schedule" class="footer__link">Schedule</a></li>
+                        <li><a href="#register" class="footer__link">Register</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__col">
+                    <h3 class="footer__title">Contact</h3>
+                    <ul class="footer__links">
+                        <li><a href="mailto:hello@luminaevents.com" class="footer__link">hello@luminaevents.com</a></li>
+                        <li><a href="tel:+15551234567" class="footer__link">+1 (555) 123-4567</a></li>
+                        <li class="footer__text">123 Design Street<br>San Francisco, CA 94107</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p>&copy; 2023 Lumina Events. All rights reserved. | <a href="#" class="footer__link">Privacy Policy</a> | <a href="#" class="footer__link">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('nav-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('nav-menu').classList.toggle('active');
+        });
+        
+        const navLinks = document.querySelectorAll('.nav__link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-toggle').classList.remove('active');
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+        
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        const indicators = document.querySelectorAll('.testimonial-carousel__indicator');
+        const track = document.querySelector('.testimonial-carousel__track');
+        
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                document.querySelector('.testimonial-carousel__indicator.active').classList.remove('active');
+                indicator.classList.add('active');
+                
+                track.style.transform = `translateX(-${index * 33.333}%)`;
+            });
+        });
+        
+        let currentSlide = 0;
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % 3;
+            document.querySelector('.testimonial-carousel__indicator.active').classList.remove('active');
+            indicators[currentSlide].classList.add('active');
+            track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+        }, 5000);
+        
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.event-card, .speaker-card, .timeline-item');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
