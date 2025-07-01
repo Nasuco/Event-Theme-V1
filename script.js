@@ -111,4 +111,83 @@ document.addEventListener("DOMContentLoaded", () => {
         revealObserver.observe(el);
     });
 
+    const targetDate = new Date(2025, 11, 31, 23, 59, 59).getTime();
+        
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Add flip animation to numbers
+        function addFlipAnimation(element) {
+            element.classList.add('flip');
+            setTimeout(() => {
+                element.classList.remove('flip');
+            }, 600);
+        }
+
+        // Update countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="expired">Event has started! 🎉</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            // Add flip animation when numbers change
+            if (daysEl && daysEl.textContent !== days.toString().padStart(2, '0')) {
+                addFlipAnimation(daysEl);
+            }
+            if (hoursEl && hoursEl.textContent !== hours.toString().padStart(2, '0')) {
+                addFlipAnimation(hoursEl);
+            }
+            if (minutesEl && minutesEl.textContent !== minutes.toString().padStart(2, '0')) {
+                addFlipAnimation(minutesEl);
+            }
+            if (secondsEl && secondsEl.textContent !== seconds.toString().padStart(2, '0')) {
+                addFlipAnimation(secondsEl);
+            }
+
+            // Update the display
+            if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Initialize
+        createParticles();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Add some interactive effects
+        document.querySelectorAll('.time-unit').forEach(unit => {
+            unit.addEventListener('mouseenter', () => {
+                unit.style.transform = 'perspective(1000px) rotateX(-10deg) scale(1.1)';
+            });
+            
+            unit.addEventListener('mouseleave', () => {
+                unit.style.transform = 'perspective(1000px) rotateX(0deg) scale(1)';
+            });
+        });
 });
